@@ -15,8 +15,8 @@
         header {
             background-color: #1f1f1f; /* Darker gray for header */
             padding: 20px;
-            text-align: center;
             position: relative;
+            text-align: center;
         }
 
         header h1 {
@@ -62,11 +62,10 @@
             display: none;
             position: absolute;
             top: 50px;
-            left: 20px;
-            background-color: #2e2e2e;
+            left: 0;
+            background-color: #1f1f1f;
             border: 1px solid #cd7f32;
             border-radius: 5px;
-            padding: 10px 0;
             z-index: 1000;
             width: 200px;
         }
@@ -81,7 +80,13 @@
         }
 
         .dropdown a:hover {
-            background-color: #1f1f1f;
+            background-color: #cd7f32;
+            color: #1f1f1f;
+        }
+
+        main {
+            padding: 50px;
+            text-align: center;
         }
 
         footer {
@@ -111,10 +116,8 @@
     </header>
 
     <main>
-        <section style="padding: 50px; text-align: center;">
-            <h2>Welcome to Strokes by Mo</h2>
-            <p>Explore our art classes, manage schedules, and experience the beauty of creativity.</p>
-        </section>
+        <h2>Welcome to Strokes by Mo</h2>
+        <p>Explore our art classes, manage schedules, and experience the beauty of creativity.</p>
     </main>
 
     <footer>
@@ -125,17 +128,20 @@
         const menuButton = document.getElementById("menuButton");
         const menuDropdown = document.getElementById("menuDropdown");
 
-        // Toggle the dropdown menu
-        menuButton.addEventListener("click", () => {
-            menuDropdown.style.display =
-                menuDropdown.style.display === "block" ? "none" : "block";
+        // Toggle the dropdown menu on click
+        menuButton.addEventListener("click", (event) => {
+            event.stopPropagation(); // Prevent click from propagating to the document
+            menuDropdown.style.display = menuDropdown.style.display === "block" ? "none" : "block";
         });
 
         // Close the dropdown when clicking outside
-        document.addEventListener("click", (event) => {
-            if (!menuButton.contains(event.target) && !menuDropdown.contains(event.target)) {
-                menuDropdown.style.display = "none";
-            }
+        document.addEventListener("click", () => {
+            menuDropdown.style.display = "none";
+        });
+
+        // Keep dropdown open when clicking inside
+        menuDropdown.addEventListener("click", (event) => {
+            event.stopPropagation();
         });
     </script>
 </body>
