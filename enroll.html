@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enroll Students</title>
-    <script src="./config.js"></script>
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
-            background-color: #ffe4b5;
+            background-color: #333333;
+            color: #DAA520;
             margin: 0;
             padding: 0;
         }
@@ -16,7 +16,7 @@
         .container {
             max-width: 600px;
             margin: 50px auto;
-            background: white;
+            background: #444444;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -24,7 +24,7 @@
 
         h1 {
             text-align: center;
-            color: #4a3626;
+            color: #DAA520;
         }
 
         label {
@@ -42,22 +42,22 @@
         }
 
         button {
-            background: #4a3626;
-            color: white;
+            background: #DAA520;
+            color: #333333;
             font-weight: bold;
             cursor: pointer;
             transition: background 0.3s ease;
         }
 
         button:hover {
-            background: #8b5e3c;
+            background: #FFD700;
         }
 
         .back-link {
             display: block;
             margin-top: 20px;
             text-align: center;
-            color: #4a3626;
+            color: #DAA520;
             text-decoration: none;
         }
 
@@ -98,17 +98,6 @@
                 <option value="6:45 PM - 7:45 PM">6:45 PM - 7:45 PM</option>
             </select>
 
-            <label for="customTime">Custom Time Slot (Optional):</label>
-            <input type="text" id="customTime" name="customTime" placeholder="e.g., 9:00 AM - 10:00 AM">
-
-            <label for="classes">Number of Classes Per Month:</label>
-            <select id="classes" name="classes" required>
-                <option value="">Select number of classes</option>
-                <option value="1">1 Class</option>
-                <option value="2">2 Classes</option>
-                <option value="4">4 Classes</option>
-            </select>
-
             <button type="submit">Enroll</button>
         </form>
         <a href="./index.html" class="back-link">← Back to Home</a>
@@ -124,35 +113,27 @@
                 payload[key] = value;
             });
 
-            // If custom time is entered, overwrite the "time" field
-            if (payload.customTime) {
-                payload.time = payload.customTime;
-            }
-            delete payload.customTime;
+            payload.action = "enrollStudent"; // Add action to payload
 
             try {
-                const response = await fetch(CONFIG.WEB_APP_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        action: "enrollStudent",
-                        ...payload,
-                    }),
+                const PROXY_URL = "http://localhost:3000/proxy"; // Proxy server URL
+                const response = await fetch(PROXY_URL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(payload),
                 });
-
-                if (!response.ok) {
-                    throw new Error(`Error: ${response.statusText}`);
-                }
 
                 const result = await response.json();
                 if (result.status === "success") {
                     alert(`Student enrolled successfully! Student ID: ${result.studentId}`);
                     event.target.reset();
                 } else {
-                    throw new Error(result.message || "Submission failed.");
+                    alert(`Failed to enroll student: ${result.message}`);
                 }
             } catch (error) {
-                console.error("Error during enrollment:", error);
+                console.error("Error during enrollment:", error.message);
                 alert("Failed to enroll student. Please try again.");
             }
         });

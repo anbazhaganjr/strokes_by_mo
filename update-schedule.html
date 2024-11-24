@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Schedule</title>
-    <script src="./config.js"></script>
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
-            background-color: #d7dfe8;
+            background-color: #333333;
+            color: #DAA520;
             margin: 0;
             padding: 0;
         }
@@ -16,7 +16,7 @@
         .container {
             max-width: 600px;
             margin: 50px auto;
-            background: white;
+            background: #444444;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -24,7 +24,7 @@
 
         h1 {
             text-align: center;
-            color: #4a3626;
+            color: #DAA520;
         }
 
         label {
@@ -42,22 +42,22 @@
         }
 
         button {
-            background: #4a3626;
-            color: white;
+            background: #DAA520;
+            color: #333333;
             font-weight: bold;
             cursor: pointer;
             transition: background 0.3s ease;
         }
 
         button:hover {
-            background: #8b5e3c;
+            background: #FFD700;
         }
 
         .back-link {
             display: block;
             margin-top: 20px;
             text-align: center;
-            color: #4a3626;
+            color: #DAA520;
             text-decoration: none;
         }
 
@@ -73,7 +73,7 @@
             <label for="student">Student Name:</label>
             <input type="text" id="student" name="student" required>
 
-            <label for="day">New Preferred Day:</label>
+            <label for="day">Updated Day:</label>
             <select id="day" name="day" required>
                 <option value="">Select a day</option>
                 <option value="Monday">Monday</option>
@@ -85,7 +85,7 @@
                 <option value="Sunday">Sunday</option>
             </select>
 
-            <label for="time">New Preferred Time Slot:</label>
+            <label for="time">Updated Time Slot:</label>
             <select id="time" name="time" required>
                 <option value="">Select a time slot</option>
                 <option value="10:00 AM - 11:00 AM">10:00 AM - 11:00 AM</option>
@@ -98,21 +98,8 @@
                 <option value="6:45 PM - 7:45 PM">6:45 PM - 7:45 PM</option>
             </select>
 
-            <label for="customTime">Custom Time Slot (Optional):</label>
-            <input type="text" id="customTime" name="customTime" placeholder="e.g., 9:00 AM - 10:00 AM">
-
-            <label for="classes">Number of Classes Per Month:</label>
-            <select id="classes" name="classes" required>
-                <option value="">Select number of classes</option>
-                <option value="1">1 Class</option>
-                <option value="2">2 Classes</option>
-                <option value="4">4 Classes</option>
-            </select>
-
-            <button type="submit">Update Schedule</button>
+            <button type="submit">Update</button>
         </form>
-
-        <button id="endSchedule" style="margin-top: 15px;">End Schedule</button>
         <a href="./index.html" class="back-link">← Back to Home</a>
     </div>
 
@@ -126,67 +113,28 @@
                 payload[key] = value;
             });
 
-            // If custom time is entered, overwrite the "time" field
-            if (payload.customTime) {
-                payload.time = payload.customTime;
-            }
-            delete payload.customTime;
+            payload.action = "updateSchedule"; // Add action to payload
 
             try {
-                const response = await fetch(CONFIG.WEB_APP_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        action: "updateSchedule",
-                        ...payload,
-                    }),
+                const PROXY_URL = "http://localhost:3000/proxy"; // Proxy server URL
+                const response = await fetch(PROXY_URL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(payload),
                 });
-
-                if (!response.ok) {
-                    throw new Error(`Error: ${response.statusText}`);
-                }
 
                 const result = await response.json();
                 if (result.status === "success") {
-                    alert(result.message || "Schedule updated successfully!");
+                    alert("Schedule updated successfully!");
                     event.target.reset();
                 } else {
-                    throw new Error(result.message || "Update failed.");
+                    alert(`Failed to update schedule: ${result.message}`);
                 }
             } catch (error) {
-                console.error("Error during schedule update:", error);
+                console.error("Error during schedule update:", error.message);
                 alert("Failed to update schedule. Please try again.");
-            }
-        });
-
-        document.getElementById('endSchedule').addEventListener('click', async () => {
-            const student = prompt("Enter the name of the student whose schedule should end:");
-
-            if (!student) return;
-
-            try {
-                const response = await fetch(CONFIG.WEB_APP_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        action: "endSchedule",
-                        student: student,
-                    }),
-                });
-
-                if (!response.ok) {
-                    throw new Error(`Error: ${response.statusText}`);
-                }
-
-                const result = await response.json();
-                if (result.status === "success") {
-                    alert(result.message || "Schedule ended successfully!");
-                } else {
-                    throw new Error(result.message || "Failed to end schedule.");
-                }
-            } catch (error) {
-                console.error("Error during ending schedule:", error);
-                alert("Failed to end schedule. Please try again.");
             }
         });
     </script>

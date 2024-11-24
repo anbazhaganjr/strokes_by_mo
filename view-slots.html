@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Slots</title>
-    <script src="./config.js"></script>
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
-            background-color: #ffe4b5;
+            background-color: #333333;
+            color: #DAA520;
             margin: 0;
             padding: 0;
         }
@@ -16,7 +16,7 @@
         .container {
             max-width: 800px;
             margin: 50px auto;
-            background: white;
+            background: #444444;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -24,19 +24,30 @@
 
         h1 {
             text-align: center;
-            color: #4a3626;
+            color: #DAA520;
         }
 
-        .slots {
+        table {
+            width: 100%;
+            border-collapse: collapse;
             margin-top: 20px;
-            font-size: 1.1rem;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #DAA520;
+        }
+
+        th {
+            background: #555555;
         }
 
         .back-link {
             display: block;
             margin-top: 20px;
             text-align: center;
-            color: #4a3626;
+            color: #DAA520;
             text-decoration: none;
         }
 
@@ -48,39 +59,52 @@
 <body>
     <div class="container">
         <h1>View Slots</h1>
+        <button onclick="fetchSlots('available')">View Available Slots</button>
         <button onclick="fetchSlots('booked')">View Booked Slots</button>
-        <button onclick="fetchSlots('available')" style="margin-top: 10px;">View Open Slots</button>
-        <div id="slots" class="slots"></div>
+        <table id="slotsTable">
+            <thead>
+                <tr>
+                    <th>Day</th>
+                    <th>Time Slot</th>
+                    <th>Student</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td colspan="4">No data available. Please select an option.</td></tr>
+            </tbody>
+        </table>
         <a href="./index.html" class="back-link">← Back to Home</a>
     </div>
 
     <script>
         async function fetchSlots(type) {
             try {
-                const response = await fetch(CONFIG.WEB_APP_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        action: "getSlots",
-                        type: type,
-                    }),
+                const PROXY_URL = "http://localhost:3000/proxy"; // Proxy server URL
+                const response = await fetch(PROXY_URL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ action: "getSlots", type }),
                 });
 
-                if (!response.ok) {
-                    throw new Error(`Error: ${response.statusText}`);
+                const result = await response.json();
+                if (result.length) {
+                    const tableBody = document.querySelector("#slotsTable tbody");
+                    tableBody.innerHTML = result.map(slot => `
+                        <tr>
+                            <td>${slot.day}</td>
+                            <td>${slot.time}</td>
+                            <td>${slot.student || "N/A"}</td>
+                            <td>${slot.status}</td>
+                        </tr>
+                    `).join("");
+                } else {
+                    alert("No data available for the selected option.");
                 }
-
-                const slots = await response.json();
-                const slotsContainer = document.getElementById('slots');
-                slotsContainer.innerHTML = `<h3>${type.charAt(0).toUpperCase() + type.slice(1)} Slots</h3><ul>`;
-                slots.forEach(slot => {
-                    slotsContainer.innerHTML += `<li>${slot.day}, ${slot.time} - ${
-                        slot.status === "booked" ? `Booked by ${slot.student}` : "Available"
-                    }</li>`;
-                });
-                slotsContainer.innerHTML += `</ul>`;
             } catch (error) {
-                console.error("Error fetching slots:", error);
+                console.error("Error fetching slots:", error.message);
                 alert("Failed to fetch slots. Please try again.");
             }
         }
