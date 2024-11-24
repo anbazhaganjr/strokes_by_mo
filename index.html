@@ -78,6 +78,14 @@
             background-color: #808080; /* Slightly darker light gray */
         }
 
+        .end-schedule {
+            background-color: #ff6666; /* Red */
+            color: #ffffff; /* White text */
+        }
+        .end-schedule:hover {
+            background-color: #e64d4d; /* Slightly darker red */
+        }
+
         /* Footer Placeholder */
         footer {
             margin-top: 50px;
@@ -95,6 +103,7 @@
         <button class="enroll" id="enrollButton">Enroll Students</button>
         <button class="view-slots" id="viewSlotsButton">View Slots</button>
         <button class="gallery" id="galleryButton">Gallery</button>
+        <button class="end-schedule" id="endScheduleButton">End Schedule</button>
     </div>
 
     <!-- Footer Placeholder -->
@@ -112,6 +121,10 @@
 
         document.getElementById('galleryButton').addEventListener('click', () => {
             alert('Gallery Coming Soon!');
+        });
+
+        document.getElementById('endScheduleButton').addEventListener('click', () => {
+            window.location.href = './end-schedule.html'; // Link to the end schedule page
         });
     </script>
 </body>
