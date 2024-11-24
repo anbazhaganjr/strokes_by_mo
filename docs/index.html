@@ -49,6 +49,9 @@
             border-radius: 5px;
             font-size: 16px;
             font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
             transition: background 0.3s ease;
         }
 
@@ -66,6 +69,7 @@
             border-radius: 5px;
             padding: 10px 0;
             z-index: 1000;
+            width: 200px;
         }
 
         .dropdown a {
@@ -96,7 +100,7 @@
 <body>
     <header>
         <div class="menu">
-            <button onclick="toggleDropdown()">☰ Menu</button>
+            <button id="menuButton">☰ Menu</button>
             <div class="dropdown" id="menuDropdown">
                 <a href="enroll.html">Enroll Students</a>
                 <a href="update-schedule.html">Update Schedule</a>
@@ -119,10 +123,24 @@
     </footer>
 
     <script>
-        function toggleDropdown() {
-            const dropdown = document.getElementById("menuDropdown");
-            dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
-        }
+        const menuButton = document.getElementById("menuButton");
+        const menuDropdown = document.getElementById("menuDropdown");
+
+        // Toggle the dropdown on button click
+        menuButton.addEventListener("click", () => {
+            if (menuDropdown.style.display === "block") {
+                menuDropdown.style.display = "none";
+            } else {
+                menuDropdown.style.display = "block";
+            }
+        });
+
+        // Close the dropdown when clicking outside
+        document.addEventListener("click", (event) => {
+            if (!menuButton.contains(event.target) && !menuDropdown.contains(event.target)) {
+                menuDropdown.style.display = "none";
+            }
+        });
     </script>
 </body>
 </html>
