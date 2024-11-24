@@ -101,6 +101,7 @@
     <!-- Buttons Container -->
     <div class="buttons-container">
         <button class="enroll" id="enrollButton">Enroll Students</button>
+        <button class="update-schedule" id="updateScheduleButton">Update Schedule</button>
         <button class="view-slots" id="viewSlotsButton">View Slots</button>
         <button class="gallery" id="galleryButton">Gallery</button>
         <button class="end-schedule" id="endScheduleButton">End Schedule</button>
@@ -113,6 +114,10 @@
     <script>
         document.getElementById('enrollButton').addEventListener('click', () => {
             window.location.href = './enroll.html'; // Link to the enrollment form
+        });
+
+        document.getElementById('updateScheduleButton').addEventListener('click', () => {
+            window.location.href = './update-schedule.html'; // Link to the update schedule page
         });
 
         document.getElementById('viewSlotsButton').addEventListener('click', () => {
