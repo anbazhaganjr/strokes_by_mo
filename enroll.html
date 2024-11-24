@@ -111,9 +111,9 @@
             event.preventDefault();
 
             const formData = new FormData(event.target);
-            const data = {};
+            const payload = {};
             formData.forEach((value, key) => {
-                data[key] = value;
+                payload[key] = value;
             });
 
             try {
@@ -121,8 +121,15 @@
                 const response = await fetch(CONFIG.WEB_APP_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ action: 'enrollStudent', ...data })
+                    body: JSON.stringify({
+                        action: "enrollStudent",
+                        ...payload,
+                    }),
                 });
+
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.statusText}`);
+                }
 
                 const result = await response.json();
                 if (result.status === "success") {

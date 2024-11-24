@@ -1,5 +1,5 @@
 // config.js
 const CONFIG = {
-    WEB_APP_URL: "https://script.google.com/macros/s/AKfycbwTpan3PlpkAR1F8WSYYqM-53Xg_V3Qiaf1HFPAhrnZGPYO8_c_wq1EOUkBwPpTjSlc/exec" // Replace with your Web App URL
+    WEB_APP_URL: "https://script.google.com/macros/s/AKfycbw4HqJ4gTc1qGrU7Leo_MZ2SQTYkSo5QTJWVixj6XlKScT1EoMqfV6Dv2Kh4sHOUieZ/exec" // Replace with your Web App URL
   };
   
