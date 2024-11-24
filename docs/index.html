@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Strokes by Mo</title>
     <style>
+        /* General styles */
         body {
             margin: 0;
             font-family: 'Montserrat', sans-serif;
@@ -13,30 +14,31 @@
         }
 
         header {
-            background-color: #1f1f1f; /* Darker gray for header */
-            padding: 20px;
-            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #1f1f1f;
+            padding: 10px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
         header h1 {
             margin: 0;
-            font-size: 2.5rem;
-            text-align: center;
-            text-transform: uppercase;
-            font-weight: bold;
+            font-size: 2rem;
             color: #cd7f32;
             animation: fadeIn 3s ease-in-out infinite;
         }
 
         @keyframes fadeIn {
             0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
+            50% { opacity: 0.8; }
         }
 
+        /* Menu button */
         .menu {
-            position: absolute;
-            top: 20px;
-            left: 20px;
+            position: relative;
         }
 
         .menu button {
@@ -48,21 +50,19 @@
             border-radius: 5px;
             font-size: 16px;
             font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 10px;
             transition: background 0.3s ease;
         }
 
         .menu button:hover {
-            background-color: #f4a460; /* Lighter bronze */
+            background-color: #f4a460;
         }
 
+        /* Dropdown menu */
         .dropdown {
             display: none;
             position: absolute;
             top: 50px;
-            left: 20px;
+            left: 0;
             background-color: #1f1f1f;
             border: 1px solid #cd7f32;
             border-radius: 5px;
@@ -103,6 +103,7 @@
 </head>
 <body>
     <header>
+        <h1>Strokes by Mo</h1>
         <div class="menu">
             <button id="menuButton">☰ Menu</button>
             <div class="dropdown" id="menuDropdown">
@@ -112,7 +113,6 @@
                 <a href="gallery.html">Gallery</a>
             </div>
         </div>
-        <h1>Strokes by Mo</h1>
     </header>
 
     <main>
@@ -125,17 +125,17 @@
     </footer>
 
     <script>
-        // Menu button and dropdown
+        // Menu toggle functionality
         const menuButton = document.getElementById("menuButton");
         const menuDropdown = document.getElementById("menuDropdown");
 
-        // Toggle dropdown visibility on button click
+        // Toggle the menu dropdown
         menuButton.addEventListener("click", () => {
-            const isDropdownVisible = menuDropdown.style.display === "block";
-            menuDropdown.style.display = isDropdownVisible ? "none" : "block";
+            menuDropdown.style.display =
+                menuDropdown.style.display === "block" ? "none" : "block";
         });
 
-        // Close dropdown when clicking outside
+        // Close the dropdown when clicking outside
         document.addEventListener("click", (event) => {
             if (!menuButton.contains(event.target) && !menuDropdown.contains(event.target)) {
                 menuDropdown.style.display = "none";
