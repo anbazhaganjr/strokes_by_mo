@@ -1,0 +1,1 @@
+# strokes_by_mo
