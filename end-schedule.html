@@ -101,7 +101,7 @@
             }
 
             try {
-                const response = await fetch('YOUR_GOOGLE_APPS_SCRIPT_URL', { // Replace with your Apps Script URL
+                const response = await fetch('https://script.google.com/macros/s/AKfycbz1Pb13op8HVxVlKQhwLA2jQqR7bM_oKE5ebDvMqenj9KcRViP-ljcE-aw_ovSYngsf/exec', { // Replace with your Apps Script URL
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ action: "endSchedule", student: student })

@@ -5,69 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enroll Students</title>
     <style>
-        /* General Styling */
-        body {
-            font-family: 'Montserrat', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f2f2f2; /* Light cement gray */
-            color: #333333; /* Dark gray for text */
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: #ffffff; /* White */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
-
-        h1 {
-            text-align: center;
-            color: #ffcc00; /* Yellow */
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-
-        input, select, button {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            margin-bottom: 15px;
-            border: 1px solid #cccccc;
-            border-radius: 5px;
-            font-size: 1em;
-        }
-
-        button {
-            background-color: #ffcc00; /* Yellow */
-            color: #333333; /* Dark gray */
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #e6b800; /* Darker Yellow */
-        }
-
-        .back-link {
-            display: block;
-            text-align: center;
-            margin-top: 20px;
-            text-decoration: none;
-            color: #333333; /* Dark gray */
-        }
-
-        .back-link:hover {
-            text-decoration: underline;
-        }
+        body { font-family: 'Montserrat', sans-serif; background-color: #f9f9f9; }
+        .container { max-width: 600px; margin: 50px auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
+        h1 { color: #ffcc00; text-align: center; }
+        label { display: block; margin-top: 10px; font-weight: bold; }
+        input, select, button { width: 100%; padding: 10px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc; }
+        button { background: #ffcc00; color: #333; font-weight: bold; cursor: pointer; transition: background 0.3s; }
+        button:hover { background: #e6b800; }
+        .back-link { display: block; margin-top: 20px; text-align: center; color: #333; text-decoration: none; }
+        .back-link:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -76,12 +22,6 @@
         <form id="enrollForm">
             <label for="name">Student Name:</label>
             <input type="text" id="name" name="name" placeholder="Enter student name" required>
-
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" placeholder="Enter student email" required>
-
-            <label for="phone">Phone Number:</label>
-            <input type="tel" id="phone" name="phone" placeholder="Enter student phone number" required>
 
             <label for="day">Preferred Day:</label>
             <select id="day" name="day" required>
@@ -108,6 +48,14 @@
                 <option value="6:45 PM - 7:45 PM">6:45 PM - 7:45 PM</option>
             </select>
 
+            <label for="classes">Number of Classes Per Month:</label>
+            <select id="classes" name="classes" required>
+                <option value="">Select number of classes</option>
+                <option value="1">1 Class</option>
+                <option value="2">2 Classes</option>
+                <option value="4">4 Classes</option>
+            </select>
+
             <button type="submit">Submit</button>
         </form>
         <a href="./index.html" class="back-link">← Back to Home</a>
@@ -117,7 +65,6 @@
         document.getElementById('enrollForm').addEventListener('submit', async (event) => {
             event.preventDefault();
 
-            // Collect form data
             const formData = new FormData(event.target);
             const data = {};
             formData.forEach((value, key) => {
@@ -125,23 +72,22 @@
             });
 
             try {
-                const response = await fetch('https://script.google.com/macros/s/AKfycby0ZJ9iyJkAHePCJ-5nYnuMoKwyYTQ8Jyq9MdcZHv5uVJFKaJYGL77VRaBVSPzNL4Lr/exec', { // Replace with your Apps Script URL
+                const response = await fetch('https://script.google.com/macros/s/AKfycbz1Pb13op8HVxVlKQhwLA2jQqR7bM_oKE5ebDvMqenj9KcRViP-ljcE-aw_ovSYngsf/exec', { // Replace with your Apps Script URL
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
+                    body: JSON.stringify({ action: 'enrollStudent', ...data })
                 });
 
                 const result = await response.json();
-
                 if (result.status === "success") {
                     alert(`Student enrolled successfully! Student ID: ${result.studentId}`);
                     event.target.reset();
                 } else {
-                    throw new Error("Submission failed.");
+                    throw new Error(result.message || "Submission failed.");
                 }
             } catch (error) {
-                console.error("Error submitting the form:", error);
                 alert("Failed to enroll student. Please try again.");
+                console.error("Error:", error);
             }
         });
     </script>
