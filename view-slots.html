@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Slots</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f2f2f2; /* Light cement gray */
+            color: #333333; /* Dark gray for text */
+        }
+
+        h1 {
+            text-align: center;
+            color: #ffcc00; /* Yellow */
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .booked-slots {
+            background-color: #666666; /* Dark gray */
+            color: #ffffff;
+        }
+
+        .booked-slots:hover {
+            background-color: #4d4d4d; /* Slightly darker gray */
+        }
+
+        .open-slots {
+            background-color: #ffcc00; /* Yellow */
+            color: #333333; /* Dark gray */
+        }
+
+        .open-slots:hover {
+            background-color: #e6b800; /* Slightly darker yellow */
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .slot {
+            padding: 10px;
+            text-align: center;
+            background-color: #ffffff; /* White */
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+
+        .booked {
+            background-color: #ff6666; /* Red for booked */
+            color: #ffffff;
+        }
+
+        .available {
+            background-color: #66cc66; /* Green for available */
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <h1>View Slots</h1>
+    <div class="button-container">
+        <button class="booked-slots" id="bookedButton">View Booked Slots</button>
+        <button class="open-slots" id="openButton">View Open Slots</button>
+    </div>
+
+    <div id="slotsContainer" class="grid" style="display: none;">
+        <!-- Slots will be dynamically populated here -->
+    </div>
+
+    <script>
+        document.getElementById('bookedButton').addEventListener('click', () => {
+            loadSlots('booked');
+        });
+
+        document.getElementById('openButton').addEventListener('click', () => {
+            loadSlots('open');
+        });
+
+        async function loadSlots(type) {
+            const slotsContainer = document.getElementById('slotsContainer');
+            slotsContainer.style.display = 'grid'; // Show the grid
+
+            // Clear previous slots
+            slotsContainer.innerHTML = '';
+
+            // Placeholder: Fetch data from Google Sheets
+            const response = await fetch('YOUR_GOOGLE_APPS_SCRIPT_URL', { // Replace with Apps Script URL
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'getSlots', type })
+            });
+
+            const slots = await response.json();
+
+            // Populate the slots
+            slots.forEach(slot => {
+                const slotDiv = document.createElement('div');
+                slotDiv.className = `slot ${slot.status}`;
+                slotDiv.textContent = `${slot.time} - ${slot.status === 'booked' ? slot.student : 'Available'}`;
+                slotsContainer.appendChild(slotDiv);
+            });
+        }
+    </script>
+</body>
+</html>
