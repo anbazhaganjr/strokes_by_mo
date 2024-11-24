@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enroll Students</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2; /* Light cement gray */
+            color: #333333; /* Dark gray for text */
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff; /* White */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #ffcc00; /* Yellow */
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        button {
+            background-color: #ffcc00; /* Yellow */
+            color: #333333; /* Dark gray */
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #e6b800; /* Darker Yellow */
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #333333; /* Dark gray */
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Enroll Students</h1>
+        <form id="enrollForm">
+            <label for="name">Student Name:</label>
+            <input type="text" id="name" name="name" placeholder="Enter student name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Enter student email" required>
+
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" placeholder="Enter student phone number" required>
+
+            <label for="day">Preferred Day:</label>
+            <select id="day" name="day" required>
+                <option value="">Select a day</option>
+                <option value="Monday">Monday</option>
+                <option value="Tuesday">Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
+                <option value="Saturday">Saturday</option>
+                <option value="Sunday">Sunday</option>
+            </select>
+
+            <label for="time">Preferred Time Slot:</label>
+            <select id="time" name="time" required>
+                <option value="">Select a time slot</option>
+                <option value="10:00 AM - 11:00 AM">10:00 AM - 11:00 AM</option>
+                <option value="11:15 AM - 12:15 PM">11:15 AM - 12:15 PM</option>
+                <option value="12:30 PM - 1:30 PM">12:30 PM - 1:30 PM</option>
+                <option value="1:45 PM - 2:45 PM">1:45 PM - 2:45 PM</option>
+                <option value="3:00 PM - 4:00 PM">3:00 PM - 4:00 PM</option>
+                <option value="4:15 PM - 5:15 PM">4:15 PM - 5:15 PM</option>
+                <option value="5:30 PM - 6:30 PM">5:30 PM - 6:30 PM</option>
+                <option value="6:45 PM - 7:45 PM">6:45 PM - 7:45 PM</option>
+            </select>
+
+            <button type="submit">Submit</button>
+        </form>
+        <a href="./index.html" class="back-link">← Back to Home</a>
+    </div>
+
+    <script>
+        document.getElementById('enrollForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            // Collect form data
+            const formData = new FormData(event.target);
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+
+            console.log("Form data submitted:", data);
+
+            // Placeholder for backend submission logic
+            alert("Form submitted successfully!");
+
+            // Reset the form
+            event.target.reset();
+        });
+    </script>
+</body>
+</html>
