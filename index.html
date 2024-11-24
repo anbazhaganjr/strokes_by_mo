@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strokes by Mo</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2; /* Light cement gray */
+            color: #333333; /* Dark gray for text */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        /* Banner Styling */
+        .banner {
+            width: 100%;
+            padding: 20px;
+            background-color: #cccccc; /* Cement gray */
+            text-align: center;
+            color: #ffcc00; /* Yellow for text */
+            font-size: 2.5em;
+            font-weight: bold;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Buttons Container */
+        .buttons-container {
+            margin-top: 50px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 80%;
+            max-width: 400px;
+        }
+
+        /* Button Styling */
+        button {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Specific Button Colors */
+        .enroll {
+            background-color: #ffcc00; /* Yellow */
+            color: #333333; /* Dark gray */
+        }
+        .enroll:hover {
+            background-color: #e6b800; /* Slightly darker yellow */
+        }
+
+        .view-slots {
+            background-color: #666666; /* Dark gray */
+            color: #ffffff; /* White text */
+        }
+        .view-slots:hover {
+            background-color: #4d4d4d; /* Slightly darker gray */
+        }
+
+        .gallery {
+            background-color: #999999; /* Light gray */
+            color: #ffffff; /* White text */
+        }
+        .gallery:hover {
+            background-color: #808080; /* Slightly darker light gray */
+        }
+
+        /* Footer Placeholder */
+        footer {
+            margin-top: 50px;
+            font-size: 1em;
+            color: #666666;
+        }
+    </style>
+</head>
+<body>
+    <!-- Banner -->
+    <div class="banner">STROKES BY MO</div>
+
+    <!-- Buttons Container -->
+    <div class="buttons-container">
+        <button class="enroll" id="enrollButton">Enroll Students</button>
+        <button class="view-slots" id="viewSlotsButton">View Slots</button>
+        <button class="gallery" id="galleryButton">Gallery</button>
+    </div>
+
+    <!-- Footer Placeholder -->
+    <footer>© 2024 Strokes by Mo</footer>
+
+    <!-- Script for Button Navigation -->
+    <script>
+        document.getElementById('enrollButton').addEventListener('click', () => {
+            window.location.href = './enroll.html'; // Link to the enrollment form
+        });
+
+        document.getElementById('viewSlotsButton').addEventListener('click', () => {
+            window.location.href = './view-slots.html'; // Link to the slots view page
+        });
+
+        document.getElementById('galleryButton').addEventListener('click', () => {
+            alert('Gallery Coming Soon!');
+        });
+    </script>
+</body>
+</html>
