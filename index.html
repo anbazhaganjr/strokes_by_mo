@@ -6,123 +6,75 @@
     <title>Strokes by Mo</title>
     <link rel="icon" href="./favicon.ico" type="image/x-icon">
     <style>
-        /* General Styling */
         body {
             font-family: 'Montserrat', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f5f5f5;
-            color: #333;
+            background-color: #333333; /* Dark grey background */
+            color: #cd7f32; /* Bronze text */
         }
 
-        /* Subtle Background */
-        .background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, #f5f5f5, #d7dfe8);
-            z-index: -1;
-        }
-
-        /* Header Section */
         .header {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 220px;
-            background-color: #4a3626; /* Bronze Color */
-            color: #ffd700; /* Gold Color */
-            font-size: 3.5rem;
+            text-align: center;
+            padding: 20px;
+            font-size: 2.5rem;
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 5px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            color: #cd7f32; /* Bronze text */
+            letter-spacing: 3px;
         }
 
-        /* Navigation Bar */
         .menu {
             display: flex;
             justify-content: center;
-            padding: 10px;
-            background-color: #778899; /* Light Bluish-Gray */
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            border-top: 2px solid #4a3626;
+            padding: 20px;
+            gap: 20px;
         }
 
         .menu a {
             text-decoration: none;
-            color: white;
-            padding: 12px 25px;
-            margin: 0 8px;
+            color: #cd7f32; /* Bronze text */
             font-weight: bold;
+            font-size: 1.1rem;
+            padding: 10px 20px;
+            border: 2px solid #cd7f32;
             border-radius: 5px;
-            background: linear-gradient(45deg, #4a3626, #8b5e3c);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .menu a:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transform: scale(1.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
 
-        /* Content Section */
         .content {
             text-align: center;
-            margin: 60px auto;
+            margin: 50px auto;
+            font-size: 1.2rem;
             max-width: 800px;
         }
 
-        .content h2 {
-            font-size: 2.5rem;
-            color: #4a3626;
-            margin-bottom: 20px;
-        }
-
-        .content p {
-            color: #333;
-            font-size: 1.2rem;
-            line-height: 1.6;
-        }
-
-        /* Footer Section */
         footer {
             text-align: right;
             padding: 10px 20px;
             font-size: 0.9rem;
-            color: #4a3626;
-            background-color: #f5f5f5;
-            border-top: 1px solid #ccc;
+            background-color: #333333;
+            color: #cd7f32;
         }
     </style>
 </head>
 <body>
-    <!-- Subtle Background -->
-    <div class="background"></div>
-
-    <!-- Header Section -->
-    <div class="header">
-        Strokes by Mo
-    </div>
-
-    <!-- Navigation Menu -->
+    <div class="header">Strokes by Mo</div>
     <div class="menu">
         <a href="./enroll.html">Enroll Students</a>
         <a href="./view-slots.html">View Slots</a>
         <a href="./update-schedule.html">Update Schedule</a>
         <a href="./gallery.html">Gallery</a>
     </div>
-
-    <!-- Main Content Section -->
     <div class="content">
         <h2>Welcome to Strokes by Mo</h2>
         <p>Explore our art classes, manage schedules, and experience the beauty of creativity.</p>
     </div>
-
-    <!-- Footer Section -->
-    <footer>
-        © 2024 Strokes by Mo. All Rights Reserved.
-    </footer>
+    <footer>© 2024 Strokes by Mo. All Rights Reserved.</footer>
 </body>
 </html>

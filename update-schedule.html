@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update or End Schedule</title>
+    <title>Update Schedule</title>
     <script src="./config.js"></script>
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
-            background-color: #fff8dc;
+            background-color: #d7dfe8;
             margin: 0;
             padding: 0;
         }
@@ -24,7 +24,7 @@
 
         h1 {
             text-align: center;
-            color: #ff4500;
+            color: #4a3626;
         }
 
         label {
@@ -42,7 +42,7 @@
         }
 
         button {
-            background: #ff4500;
+            background: #4a3626;
             color: white;
             font-weight: bold;
             cursor: pointer;
@@ -50,43 +50,30 @@
         }
 
         button:hover {
-            background: #ff8c00;
+            background: #8b5e3c;
         }
 
         .back-link {
             display: block;
             margin-top: 20px;
             text-align: center;
-            color: #ff4500;
+            color: #4a3626;
             text-decoration: none;
         }
 
         .back-link:hover {
             text-decoration: underline;
         }
-
-        .end-schedule-section {
-            margin-top: 20px;
-            padding: 15px;
-            border: 2px dashed #ff4500;
-            background-color: #ffe4b5;
-        }
-
-        .end-schedule-section h2 {
-            color: #ff4500;
-            margin-bottom: 10px;
-        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Update or End Schedule</h1>
-        <!-- Update Schedule Form -->
-        <form id="updateScheduleForm">
+        <h1>Update Schedule</h1>
+        <form id="updateForm">
             <label for="student">Student Name:</label>
-            <input type="text" id="student" name="student" placeholder="Enter student name" required>
+            <input type="text" id="student" name="student" required>
 
-            <label for="day">Update Day:</label>
+            <label for="day">New Preferred Day:</label>
             <select id="day" name="day" required>
                 <option value="">Select a day</option>
                 <option value="Monday">Monday</option>
@@ -94,16 +81,27 @@
                 <option value="Wednesday">Wednesday</option>
                 <option value="Thursday">Thursday</option>
                 <option value="Friday">Friday</option>
+                <option value="Saturday">Saturday</option>
+                <option value="Sunday">Sunday</option>
             </select>
 
-            <label for="time">Update Time Slot:</label>
+            <label for="time">New Preferred Time Slot:</label>
             <select id="time" name="time" required>
                 <option value="">Select a time slot</option>
                 <option value="10:00 AM - 11:00 AM">10:00 AM - 11:00 AM</option>
                 <option value="11:15 AM - 12:15 PM">11:15 AM - 12:15 PM</option>
+                <option value="12:30 PM - 1:30 PM">12:30 PM - 1:30 PM</option>
+                <option value="1:45 PM - 2:45 PM">1:45 PM - 2:45 PM</option>
+                <option value="3:00 PM - 4:00 PM">3:00 PM - 4:00 PM</option>
+                <option value="4:15 PM - 5:15 PM">4:15 PM - 5:15 PM</option>
+                <option value="5:30 PM - 6:30 PM">5:30 PM - 6:30 PM</option>
+                <option value="6:45 PM - 7:45 PM">6:45 PM - 7:45 PM</option>
             </select>
 
-            <label for="classes">Update Number of Classes Per Month:</label>
+            <label for="customTime">Custom Time Slot (Optional):</label>
+            <input type="text" id="customTime" name="customTime" placeholder="e.g., 9:00 AM - 10:00 AM">
+
+            <label for="classes">Number of Classes Per Month:</label>
             <select id="classes" name="classes" required>
                 <option value="">Select number of classes</option>
                 <option value="1">1 Class</option>
@@ -114,76 +112,80 @@
             <button type="submit">Update Schedule</button>
         </form>
 
-        <!-- End Schedule Section -->
-        <div class="end-schedule-section">
-            <h2>End Schedule</h2>
-            <form id="endScheduleForm">
-                <label for="endStudent">Student Name:</label>
-                <input type="text" id="endStudent" name="student" placeholder="Enter student name" required>
-                <button type="submit">End Schedule</button>
-            </form>
-        </div>
-
+        <button id="endSchedule" style="margin-top: 15px;">End Schedule</button>
         <a href="./index.html" class="back-link">← Back to Home</a>
     </div>
 
     <script>
-        // Update Schedule Logic
-        document.getElementById('updateScheduleForm').addEventListener('submit', async (event) => {
+        document.getElementById('updateForm').addEventListener('submit', async (event) => {
             event.preventDefault();
 
             const formData = new FormData(event.target);
-            const data = {};
+            const payload = {};
             formData.forEach((value, key) => {
-                data[key] = value;
+                payload[key] = value;
             });
+
+            // If custom time is entered, overwrite the "time" field
+            if (payload.customTime) {
+                payload.time = payload.customTime;
+            }
+            delete payload.customTime;
 
             try {
                 const response = await fetch(CONFIG.WEB_APP_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ action: 'updateSchedule', ...data })
+                    body: JSON.stringify({
+                        action: "updateSchedule",
+                        ...payload,
+                    }),
                 });
+
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.statusText}`);
+                }
 
                 const result = await response.json();
                 if (result.status === "success") {
-                    alert("Schedule updated successfully!");
+                    alert(result.message || "Schedule updated successfully!");
                     event.target.reset();
                 } else {
                     throw new Error(result.message || "Update failed.");
                 }
             } catch (error) {
-                console.error("Error updating schedule:", error);
+                console.error("Error during schedule update:", error);
                 alert("Failed to update schedule. Please try again.");
             }
         });
 
-        // End Schedule Logic
-        document.getElementById('endScheduleForm').addEventListener('submit', async (event) => {
-            event.preventDefault();
+        document.getElementById('endSchedule').addEventListener('click', async () => {
+            const student = prompt("Enter the name of the student whose schedule should end:");
 
-            const formData = new FormData(event.target);
-            const data = {};
-            formData.forEach((value, key) => {
-                data[key] = value;
-            });
+            if (!student) return;
 
             try {
                 const response = await fetch(CONFIG.WEB_APP_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ action: 'endSchedule', ...data })
+                    body: JSON.stringify({
+                        action: "endSchedule",
+                        student: student,
+                    }),
                 });
+
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.statusText}`);
+                }
 
                 const result = await response.json();
                 if (result.status === "success") {
-                    alert("Schedule ended successfully!");
-                    event.target.reset();
+                    alert(result.message || "Schedule ended successfully!");
                 } else {
                     throw new Error(result.message || "Failed to end schedule.");
                 }
             } catch (error) {
-                console.error("Error ending schedule:", error);
+                console.error("Error during ending schedule:", error);
                 alert("Failed to end schedule. Please try again.");
             }
         });
