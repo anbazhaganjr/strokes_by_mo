@@ -3,27 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Schedule</title>
+    <title>Update or End Schedule</title>
+    <script src="./config.js"></script>
     <style>
-        body { font-family: 'Montserrat', sans-serif; background-color: #f9f9f9; }
-        .container { max-width: 600px; margin: 50px auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
-        h1 { color: #ffcc00; text-align: center; }
-        label { display: block; margin-top: 10px; font-weight: bold; }
-        input, select, button { width: 100%; padding: 10px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc; }
-        button { background: #ffcc00; color: #333; font-weight: bold; cursor: pointer; transition: background 0.3s; }
-        button:hover { background: #e6b800; }
-        .back-link { display: block; margin-top: 20px; text-align: center; color: #333; text-decoration: none; }
-        .back-link:hover { text-decoration: underline; }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #fff8dc;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #ff4500;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background: #ff4500;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #ff8c00;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            color: #ff4500;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .end-schedule-section {
+            margin-top: 20px;
+            padding: 15px;
+            border: 2px dashed #ff4500;
+            background-color: #ffe4b5;
+        }
+
+        .end-schedule-section h2 {
+            color: #ff4500;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Update Schedule</h1>
+        <h1>Update or End Schedule</h1>
+        <!-- Update Schedule Form -->
         <form id="updateScheduleForm">
-            <label for="student">Select Student:</label>
+            <label for="student">Student Name:</label>
             <input type="text" id="student" name="student" placeholder="Enter student name" required>
 
-            <label for="day">Update Preferred Day:</label>
+            <label for="day">Update Day:</label>
             <select id="day" name="day" required>
                 <option value="">Select a day</option>
                 <option value="Monday">Monday</option>
@@ -31,24 +94,16 @@
                 <option value="Wednesday">Wednesday</option>
                 <option value="Thursday">Thursday</option>
                 <option value="Friday">Friday</option>
-                <option value="Saturday">Saturday</option>
-                <option value="Sunday">Sunday</option>
             </select>
 
-            <label for="time">Update Preferred Time Slot:</label>
+            <label for="time">Update Time Slot:</label>
             <select id="time" name="time" required>
                 <option value="">Select a time slot</option>
                 <option value="10:00 AM - 11:00 AM">10:00 AM - 11:00 AM</option>
                 <option value="11:15 AM - 12:15 PM">11:15 AM - 12:15 PM</option>
-                <option value="12:30 PM - 1:30 PM">12:30 PM - 1:30 PM</option>
-                <option value="1:45 PM - 2:45 PM">1:45 PM - 2:45 PM</option>
-                <option value="3:00 PM - 4:00 PM">3:00 PM - 4:00 PM</option>
-                <option value="4:15 PM - 5:15 PM">4:15 PM - 5:15 PM</option>
-                <option value="5:30 PM - 6:30 PM">5:30 PM - 6:30 PM</option>
-                <option value="6:45 PM - 7:45 PM">6:45 PM - 7:45 PM</option>
             </select>
 
-            <label for="classes">Number of Classes Per Month:</label>
+            <label for="classes">Update Number of Classes Per Month:</label>
             <select id="classes" name="classes" required>
                 <option value="">Select number of classes</option>
                 <option value="1">1 Class</option>
@@ -56,12 +111,24 @@
                 <option value="4">4 Classes</option>
             </select>
 
-            <button type="submit">Update</button>
+            <button type="submit">Update Schedule</button>
         </form>
+
+        <!-- End Schedule Section -->
+        <div class="end-schedule-section">
+            <h2>End Schedule</h2>
+            <form id="endScheduleForm">
+                <label for="endStudent">Student Name:</label>
+                <input type="text" id="endStudent" name="student" placeholder="Enter student name" required>
+                <button type="submit">End Schedule</button>
+            </form>
+        </div>
+
         <a href="./index.html" class="back-link">← Back to Home</a>
     </div>
 
     <script>
+        // Update Schedule Logic
         document.getElementById('updateScheduleForm').addEventListener('submit', async (event) => {
             event.preventDefault();
 
@@ -72,7 +139,7 @@
             });
 
             try {
-                const response = await fetch(CONFIG.WEB_APP_URL, { // Replace with your Apps Script URL
+                const response = await fetch(CONFIG.WEB_APP_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ action: 'updateSchedule', ...data })
@@ -83,11 +150,41 @@
                     alert("Schedule updated successfully!");
                     event.target.reset();
                 } else {
-                    throw new Error(result.message || "Failed to update schedule.");
+                    throw new Error(result.message || "Update failed.");
                 }
             } catch (error) {
+                console.error("Error updating schedule:", error);
                 alert("Failed to update schedule. Please try again.");
-                console.error("Error:", error);
+            }
+        });
+
+        // End Schedule Logic
+        document.getElementById('endScheduleForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const formData = new FormData(event.target);
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+
+            try {
+                const response = await fetch(CONFIG.WEB_APP_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'endSchedule', ...data })
+                });
+
+                const result = await response.json();
+                if (result.status === "success") {
+                    alert("Schedule ended successfully!");
+                    event.target.reset();
+                } else {
+                    throw new Error(result.message || "Failed to end schedule.");
+                }
+            } catch (error) {
+                console.error("Error ending schedule:", error);
+                alert("Failed to end schedule. Please try again.");
             }
         });
     </script>

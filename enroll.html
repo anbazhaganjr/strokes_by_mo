@@ -4,16 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enroll Students</title>
+    <script src="./config.js"></script>
     <style>
-        body { font-family: 'Montserrat', sans-serif; background-color: #f9f9f9; }
-        .container { max-width: 600px; margin: 50px auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
-        h1 { color: #ffcc00; text-align: center; }
-        label { display: block; margin-top: 10px; font-weight: bold; }
-        input, select, button { width: 100%; padding: 10px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc; }
-        button { background: #ffcc00; color: #333; font-weight: bold; cursor: pointer; transition: background 0.3s; }
-        button:hover { background: #e6b800; }
-        .back-link { display: block; margin-top: 20px; text-align: center; color: #333; text-decoration: none; }
-        .back-link:hover { text-decoration: underline; }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #ffe4b5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #ff4500;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background: #ff4500;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #ff8c00;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            color: #ff4500;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -21,7 +71,7 @@
         <h1>Enroll Students</h1>
         <form id="enrollForm">
             <label for="name">Student Name:</label>
-            <input type="text" id="name" name="name" placeholder="Enter student name" required>
+            <input type="text" id="name" name="name" required>
 
             <label for="day">Preferred Day:</label>
             <select id="day" name="day" required>
@@ -31,8 +81,6 @@
                 <option value="Wednesday">Wednesday</option>
                 <option value="Thursday">Thursday</option>
                 <option value="Friday">Friday</option>
-                <option value="Saturday">Saturday</option>
-                <option value="Sunday">Sunday</option>
             </select>
 
             <label for="time">Preferred Time Slot:</label>
@@ -43,9 +91,6 @@
                 <option value="12:30 PM - 1:30 PM">12:30 PM - 1:30 PM</option>
                 <option value="1:45 PM - 2:45 PM">1:45 PM - 2:45 PM</option>
                 <option value="3:00 PM - 4:00 PM">3:00 PM - 4:00 PM</option>
-                <option value="4:15 PM - 5:15 PM">4:15 PM - 5:15 PM</option>
-                <option value="5:30 PM - 6:30 PM">5:30 PM - 6:30 PM</option>
-                <option value="6:45 PM - 7:45 PM">6:45 PM - 7:45 PM</option>
             </select>
 
             <label for="classes">Number of Classes Per Month:</label>
@@ -56,7 +101,7 @@
                 <option value="4">4 Classes</option>
             </select>
 
-            <button type="submit">Submit</button>
+            <button type="submit">Enroll</button>
         </form>
         <a href="./index.html" class="back-link">← Back to Home</a>
     </div>
@@ -72,7 +117,8 @@
             });
 
             try {
-                const response = await fetch(CONFIG.WEB_APP_URL, { // Replace with your Apps Script URL
+                console.log("Sending data to:", CONFIG.WEB_APP_URL); // Debug the URL
+                const response = await fetch(CONFIG.WEB_APP_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ action: 'enrollStudent', ...data })
@@ -86,8 +132,8 @@
                     throw new Error(result.message || "Submission failed.");
                 }
             } catch (error) {
+                console.error("Error during enrollment:", error);
                 alert("Failed to enroll student. Please try again.");
-                console.error("Error:", error);
             }
         });
     </script>

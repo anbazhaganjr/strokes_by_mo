@@ -4,34 +4,83 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Slots</title>
+    <script src="./config.js"></script>
     <style>
-        body { font-family: 'Montserrat', sans-serif; background-color: #f9f9f9; }
-        .container { max-width: 800px; margin: 50px auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
-        h1 { color: #ffcc00; text-align: center; }
-        .slots { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; }
-        .slot { padding: 10px; background-color: #e6e6e6; text-align: center; border-radius: 5px; }
-        .booked { background-color: #ff6666; color: white; }
-        .available { background-color: #66cc66; color: white; }
-        .back-link { display: block; margin-top: 20px; text-align: center; color: #333; text-decoration: none; }
-        .back-link:hover { text-decoration: underline; }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #fdf5e6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #ff4500;
+        }
+
+        .slots {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .slot {
+            padding: 10px;
+            text-align: center;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            background-color: #ffefd5;
+        }
+
+        .booked {
+            background-color: #ff6347;
+            color: white;
+        }
+
+        .available {
+            background-color: #90ee90;
+            color: black;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            color: #ff4500;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>View Slots</h1>
-        <div id="slotsContainer" class="slots">
-            <!-- Slots will be dynamically loaded here -->
-        </div>
+        <p>Below are the available and booked slots:</p>
+        <div id="slotsContainer" class="slots"></div>
         <a href="./index.html" class="back-link">← Back to Home</a>
     </div>
 
     <script>
         async function loadSlots() {
             try {
-                const response = await fetch(CONFIG.WEB_APP_URL, { // Replace with your Apps Script URL
+                console.log("Fetching slots...");
+                const response = await fetch(CONFIG.WEB_APP_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ action: 'getSlots' })
+                    body: JSON.stringify({ action: 'getSlots', type: 'all' })
                 });
 
                 const slots = await response.json();
@@ -40,7 +89,7 @@
                 slots.forEach(slot => {
                     const div = document.createElement('div');
                     div.className = `slot ${slot.status}`;
-                    div.textContent = `${slot.time} - ${slot.status === 'booked' ? slot.student : 'Available'}`;
+                    div.textContent = `${slot.day}, ${slot.time} - ${slot.status === 'booked' ? `Booked by ${slot.student}` : 'Available'}`;
                     container.appendChild(div);
                 });
             } catch (error) {
