@@ -4,13 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Strokes by Mo</title>
-    <link rel="stylesheet" href="styles.css">
     <style>
         body {
             margin: 0;
             font-family: 'Montserrat', sans-serif;
-            background-color: #2e2e2e; /* Dark gray background */
-            color: #cd7f32; /* Bronze text */
+            background-color: #2e2e2e; /* Dark gray */
+            color: #cd7f32; /* Bronze */
         }
 
         header {
@@ -126,13 +125,10 @@
         const menuButton = document.getElementById("menuButton");
         const menuDropdown = document.getElementById("menuDropdown");
 
-        // Toggle the dropdown on button click
+        // Toggle the dropdown menu
         menuButton.addEventListener("click", () => {
-            if (menuDropdown.style.display === "block") {
-                menuDropdown.style.display = "none";
-            } else {
-                menuDropdown.style.display = "block";
-            }
+            menuDropdown.style.display =
+                menuDropdown.style.display === "block" ? "none" : "block";
         });
 
         // Close the dropdown when clicking outside
